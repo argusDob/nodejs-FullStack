@@ -1,0 +1,6 @@
+import './plugins/vuetify'
+import './plugins/vuetify'
+import './plugins/vuetify'
+import './plugins/vuetify'
+import '@babel/polyfill'
+import './plugins/vuetify'
