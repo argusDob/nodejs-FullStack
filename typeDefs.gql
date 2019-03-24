@@ -7,7 +7,7 @@ type User {
   joinDate: String
   favorites: [Post]
 }
-
+//post
 type Post {
    _id: ID
   title: String!
