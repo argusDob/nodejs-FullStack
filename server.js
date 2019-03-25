@@ -1,7 +1,8 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer, AuthenticationError } = require("apollo-server");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
+const jwt =require("jsonwebtoken");
 
 //import typDefs and resolvers
 const filePath = path.join(__dirname, "typeDefs.gql");
@@ -22,15 +23,34 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch(err => console.error(err));
 
+const getUser = async token => {
+  if (token){
+      try {
+        console.log(jwt.verify(token, process.env.SECRET))
+        return await jwt.verify(token, process.env.SECRET)
+      } catch(err){
+        console.log(err);
+        throw new AuthenticationError("Your session has ended . Please login again")
+
+      }
+  }
+}
+  
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: {
-    User,
-    Post
+  context: async ({ req }) => {
+    const token = req.headers["authorization"];
+    return { User, Post, currentUser: await getUser(token) };
   }
 });
+  //  context:  {
+  //    User,
+  //    Post
+  //  }
 
-server.listen(5000).then(({ url }) => {
+
+server.listen(900).then(({ url }) => {
   console.log(`Server listening on ${url}`);
 });
+  

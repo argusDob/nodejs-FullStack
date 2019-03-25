@@ -1,8 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import Router from "./router"
 
 import { defaultClient as apolloClient } from "./main";
-import {GET_POSTS, SIGNIN, SIGNUP} from "./quires"
+import {GET_POSTS, SIGNIN, SIGNUP, GET_CURRENT_USER} from "./quires"
+import router from "./router";
 
 
 Vue.use(Vuex);
@@ -11,6 +13,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     posts:[],
+    user : null,
     loading: false,
   },
 
@@ -18,13 +21,34 @@ export default new Vuex.Store({
     setPosts:(state, payload)=>{
       state.posts=payload;
     },
-
+     setUser(state, payload){
+        state.user=payload;
+     },
     setLoading:(state ,payload) =>{
       state.loading=payload;
     },
   
   },
   actions: {
+    getCurrentUser: ({ commit }) => {
+      commit("setLoading", true);
+      apolloClient
+        .query({
+          query: GET_CURRENT_USER
+        })
+        .then(({ data }) => {
+          commit("setLoading", false);
+          // Add user data to state
+          commit("setUser", data.getCurrentUser);
+          console.log("monoaekre")
+          commit('setUser', data.getCurrentUser);
+          console.log(data.getCurrentUser);
+        })
+        .catch(err => {
+          commit("setLoading", false);
+          console.error(err);
+        });
+    },
     //  The getPost method call an ApolloClient query and use the gql syntax to fire the post in a query 
     //print the data and catch an error . It is the same logic like fetch or axios.
     getPosts: ({commit}) => {
@@ -53,14 +77,22 @@ export default new Vuex.Store({
       })
       .then(({data}) => {
         console.log(data.signInUser)
+        //we sent the token to appollo Client so the brpwser can validate the user
+        //set the token key and the data sign in user token obj
+        //you can see the token on the browser if you click in app slector
+        localStorage.setItem('token', data.signInUser.token);
+        //to make sure created method is run in main.js (we run get CurrentlyUse)
+        //reload the page When the user click on the sign in button the page reload
+        router.go();
       })
       .catch(err => {
         console.log(err)
       })
     }
-  },
+  }, 
   getters:{
     posts:state => state.posts,
+    user:state => state.user,
     loading:state=>state.loading
   }
 });

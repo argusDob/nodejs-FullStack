@@ -15,6 +15,24 @@ query {
 `;
 
 // USer queries
+export const GET_CURRENT_USER = gql`
+  query {
+    getCurrentUser {
+      _id
+      username
+      email
+      password
+      avatar
+      joinDate
+      favorites {
+        _id
+        title
+        imageUrl
+      }
+    }
+  }
+`;
+
 
 //Post Mutatations
 
@@ -32,6 +50,7 @@ export const SIGNUP =  gql`
 mutation($username:String!, $email:String!, $password:String!){
   signupUser(username:$username, email:$email, password:$password){
   token
+  
     
   }
 }

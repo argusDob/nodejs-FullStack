@@ -20,7 +20,20 @@ module.exports = {
 //     }
 //   }
    
-  Query: {   
+  Query: {  
+    getCurrentUser: async (_, args , { User, currentUser }) =>{
+      if(!currentUser){
+        return null;
+      }
+      const user = await User.findOne({
+        username: currentUser.username
+      }).populate({
+        path:'favorites',
+        model:'Post'
+      });
+      console.log(user);
+      return user;
+    }, 
     getPosts: async(_, args, {Post}) =>{  //{Post refer to Context}
       const posts= await Post.find({}).sort({createdDate:'desc'}).populate({
         path:'createdBy',  
@@ -40,6 +53,7 @@ module.exports = {
       { title, imageUrl, categories, description, creatorId },
       { Post }
     ) => {
+      
      const newPost = await new Post({
         title,
         imageUrl,
