@@ -48,6 +48,8 @@ UserSchema.pre("save", function(next) {
   if (!this.isModified("password")) {
     return next();
   }
+
+  // (generate a salt and hash on separate function calls):
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next(err);
 

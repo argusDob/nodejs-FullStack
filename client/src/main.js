@@ -5,16 +5,20 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VueMoment from 'vue-moment'
+import FormAlert from './components/Shared/FormAlert'
+
+
 //Import ApolloClient
 
 import ApolloClient from 'apollo-boost';
 import VueApollo from 'vue-apollo';
-
-Vue.use(VueApollo);
+Vue.component('form-alert', FormAlert);
+Vue.use(VueApollo, VueMoment);
 
 // Setup ApolloClient
 export const defaultClient = new ApolloClient({
-  uri: 'http://localhost:900/graphql',
+  uri: 'http://localhost:5000/graphql',
   //include auth token witn request made to back end
   fetchOptions: {
     credentials: "include"

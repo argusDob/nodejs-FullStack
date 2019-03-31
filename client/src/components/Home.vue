@@ -10,8 +10,9 @@
 </v-container>
     </v-dialog>
     </v-layout>
-
-
+    
+  
+      
     <v-flex xs12>
       <v-carousel v-if="!loading && posts.length > 0 "  v-bind="{ 'cycle': true }" interval="3000">
         <v-carousel-item v-for="post in posts" :key="post._id" :src="post.imageUrl">
@@ -26,9 +27,11 @@
 import { gql } from "apollo-boost";
 import{mapGetters} from 'vuex';
 import { loadavg } from 'os';
+import VueMoment from 'vue-moment'
+    import moment from 'moment'
 
 export default {
-  name: "home",
+     name: "home",
   data(){
    return{
      getPosts:""
@@ -39,14 +42,18 @@ export default {
   },
 
   computed:{
-      ...mapGetters(['loading','posts'])
+      ...mapGetters(['loading','posts']),
+      
+
+      
   },
   methods:{
      handleGetCarouselPosts(){
        this.$store.dispatch("getPosts");
-       console.log(this.$store.dispatch("getPosts")
-)
-     }
+      //  console.log(this.$store.dispatch("getPosts")
+
+     },
+
   }
 
 };
