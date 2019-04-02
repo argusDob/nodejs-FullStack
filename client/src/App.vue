@@ -142,10 +142,16 @@
           <router-view />
         </transition>
         <!-- Add SnackBar -->
-        <v-snackbar v-model="authSnackBar" color="success" :timeout="5000" bottom left> You have log in 
+        <v-snackbar v-model="authSnackBar" color="success" :timeout="5000" bottom left> <h3>You have log in  </h3>
           <v-icon clas="mr-3"> check_circle </v-icon>
           <v-btn dark flat @click="authSnackBar = false">Close</v-btn>
         </v-snackbar>
+
+           <v-snackbar v-if="authError" v-model="authErrorSnackBar" color="error" bottom left> <h3>{{authError.message}}  </h3>
+          <v-icon clas="mr-3"> cancel </v-icon>
+          <v-btn dark flat to="/signin">signIn again</v-btn>
+        </v-snackbar>
+
       </v-container>
     </main>
   </v-app>
@@ -160,6 +166,7 @@ export default {
     return {
       sideNav: false,
       authSnackBar:false,
+      authErrorSnackBar:false
     };
   },
   watch:{
@@ -169,12 +176,20 @@ export default {
     console.log(newValue)
     if(oldValue === null){
       this.authSnackBar = true
+    //  this.$router.push("/");
+
+    }
+  },
+  authError(value){
+    //if authError is not null show auth error snackbar
+    if(value !== null){
+      this.authErrorSnackBar = true;
     }
   }
   },
   computed: {
     //give acess to the user data from vuex
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "authError"]),
 
     horizontalNavItems() {
       let items = [

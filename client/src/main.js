@@ -47,6 +47,11 @@ export const defaultClient = new ApolloClient({
         if (graphQLErrors) {
           for (let err of graphQLErrors) {
             console.dir(err);
+            //If the token has expire return Auth Error and fire the signoutUser action
+            if( err.name === "AuthenticationError"){
+              store.commit('setAuthError' , err);
+              store.dispatch('signOutUser')
+            }
           }
         }
       }
@@ -62,7 +67,7 @@ new Vue({
   store,
   render: h => h(App),
   created(){
-    //execute getCurrentUser wuiry to get information about the user auth if the user exist
+    //execute getCurrentUser quiry to get information about the user auth if the user exist
     //This i a later step for the use authorization
     this.$store.dispatch("getCurrentUser");
 

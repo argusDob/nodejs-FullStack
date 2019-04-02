@@ -12,7 +12,7 @@ Vue.use(Vuetify, {
     "accent": "#BF653F",
     "error": "#722530",
     "info": "#A37513",
-    "success": "#396893",
+    "success": "#38924f",
     "warning": "#4caf50"
   }
 })
