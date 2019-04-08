@@ -1,6 +1,6 @@
 <template>
   <v-app style="background: #Ε3Ε3ΕΕ">
-    <!-- Side nav bar -->
+    <!-- Side nav bar elem -->
     <v-navigation-drawer
       app
       temporary
