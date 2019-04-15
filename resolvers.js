@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+
 const jwt = require("jsonwebtoken");
 
 const createTokens = (user, secret, expiresIn) => {
@@ -46,7 +47,7 @@ module.exports = {
     //   getUsers: async(_, args, {User}) =>{  //{Post refer to Context}
     //   const users= await User.find({}).sort(username);
     //   return users;
-    // }
+
   },
   Mutation: {
     addPost: async (
