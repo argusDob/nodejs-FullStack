@@ -11,7 +11,6 @@ import FormAlert from './components/Shared/FormAlert'
 
 
 //Import ApolloClient
-
 import ApolloClient from 'apollo-boost';
 import VueApollo from 'vue-apollo';
 Vue.component('form-alert', FormAlert);
