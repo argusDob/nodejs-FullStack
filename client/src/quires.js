@@ -1,5 +1,6 @@
 import { gql } from "apollo-boost";
 
+
 // Posts Querries
 
 export const GET_POSTS = gql`
